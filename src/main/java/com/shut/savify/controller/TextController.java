@@ -2,10 +2,7 @@ package com.shut.savify.controller;
 
 import com.shut.savify.entity.Text;
 import com.shut.savify.service.TextService;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-
-import java.util.Optional;
 
 @RestController
 @RequestMapping(path = "api/v1/texts")
@@ -17,14 +14,13 @@ public class TextController {
         this.textService = textService;
     }
 
-    @GetMapping(path = "/{key}")
-    public ResponseEntity<Text> getText(@PathVariable String key){
-        Optional<Text> text = textService.getText(key);
-        return text.isPresent() ? ResponseEntity.ok(text.get()) : ResponseEntity.notFound().build();
+    @GetMapping
+    public String getText(@RequestParam(name = "key") String key) {
+        return textService.getText(key);
     }
 
     @PostMapping
-    public ResponseEntity createText(@RequestBody Text text){
-        return ResponseEntity.ok(textService.createText(text));
+    public String createText(@RequestBody Text text){
+        return textService.createText(text);
     }
 }
